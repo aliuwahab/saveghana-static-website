@@ -7,9 +7,9 @@
  */
 
 // Configuration
-define('RECIPIENT_EMAIL', 'info@saveghana.org'); // Change this to your actual email
-define('SENDER_EMAIL', 'noreply@saveghana.org'); // Change this to your domain email
-define('SENDER_NAME', 'SAVE-Ghana Website');
+define('RECIPIENT_EMAIL', 'info@saveghana.org'); // Main contact email
+define('SENDER_EMAIL', 'info@saveghana.org'); // Real email address
+define('SENDER_NAME', 'SAVEGhana Website');
 
 // Set response header
 header('Content-Type: application/json');
@@ -108,16 +108,19 @@ $headers[] = "X-Mailer: PHP/" . phpversion();
 $headers[] = "Content-Type: text/plain; charset=UTF-8";
 
 // Send email
-$mail_sent = mail(RECIPIENT_EMAIL, $email_subject, $email_body, implode("\r\n", $headers));
+$mail_sent = @mail(RECIPIENT_EMAIL, $email_subject, $email_body, implode("\r\n", $headers));
 
 if ($mail_sent) {
     $response['success'] = true;
     $response['message'] = 'Thank you for contacting us! We will get back to you soon.';
-    
+
     // Optional: Send auto-reply to the sender
     send_auto_reply($email, $name);
 } else {
-    $response['message'] = 'Sorry, there was an error sending your message. Please try again later or contact us directly via email.';
+    // Log the error for debugging
+    error_log("Contact form mail() failed. Name: $name, Email: $email");
+
+    $response['message'] = 'Unable to send message. Please try again later or call us on +233(0)208830901';
 }
 
 echo json_encode($response);

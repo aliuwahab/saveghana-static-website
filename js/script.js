@@ -144,13 +144,13 @@ if (contactForm) {
             const result = await response.json();
 
             if (result.success) {
-                showMessage('Thank you! Your message has been sent successfully.', 'success');
+                showMessage('Message successfully sent! We will get back to you soon.', 'success');
                 contactForm.reset();
             } else {
-                showMessage('Something went wrong. Please try again.', 'error');
+                showMessage(result.message || 'Unable to send message. Please try again later or call us on +233(0)208830901', 'error');
             }
         } catch (error) {
-            showMessage('Error sending message. Please try again later.', 'error');
+            showMessage('Unable to send message. Please try again later or call us on +233(0)208830901', 'error');
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
