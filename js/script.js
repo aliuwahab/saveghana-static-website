@@ -160,16 +160,29 @@ if (contactForm) {
 
 // Show message function
 function showMessage(message, type) {
+    // Remove any existing messages first
+    const existingMessage = document.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+
     const messageDiv = document.createElement('div');
     messageDiv.className = `form-message ${type}`;
     messageDiv.textContent = message;
-    
-    const form = document.querySelector('.contact-form');
-    form.insertBefore(messageDiv, form.firstChild);
 
-    setTimeout(() => {
-        messageDiv.remove();
-    }, 5000);
+    const form = document.querySelector('.contact-form');
+    if (form) {
+        form.insertBefore(messageDiv, form.firstChild);
+
+        // Scroll to message
+        messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Remove after 5 seconds with fade out
+        setTimeout(() => {
+            messageDiv.style.opacity = '0';
+            setTimeout(() => messageDiv.remove(), 300);
+        }, 5000);
+    }
 }
 
 // Back to top button
@@ -232,22 +245,40 @@ style.textContent = `
     }
 
     .form-message {
-        padding: 15px 20px;
+        padding: 20px 30px;
         border-radius: 8px;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         font-weight: 500;
+        font-size: 16px;
+        text-align: center;
+        animation: slideDown 0.3s ease-out;
+        transition: opacity 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .form-message.success {
         background: #d4edda;
         color: #155724;
-        border: 1px solid #c3e6cb;
+        border: 2px solid #28a745;
+        border-left: 6px solid #28a745;
     }
 
     .form-message.error {
         background: #f8d7da;
         color: #721c24;
-        border: 1px solid #f5c6cb;
+        border: 2px solid #dc3545;
+        border-left: 6px solid #dc3545;
     }
 `;
 document.head.appendChild(style);
