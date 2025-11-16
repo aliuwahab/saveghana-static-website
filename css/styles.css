@@ -153,6 +153,19 @@ a {
     align-items: center;
 }
 
+/* Mobile logo size adjustments */
+@media (max-width: 768px) {
+    .logo-img {
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-img {
+        height: 28px;
+    }
+}
+
 .nav-menu {
     display: flex;
     list-style: none;
